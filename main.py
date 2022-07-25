@@ -2,13 +2,13 @@ import datetime
 from telegram import Update, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import CommandHandler, MessageHandler, Updater, CallbackContext, Filters
 
+updater = Updater(token='')
+
 reppy = ReplyKeyboardMarkup([
     [KeyboardButton('malumot')],
     [KeyboardButton('kontakt', request_contact=True), KeyboardButton('lokatsiya', request_location=True)],
     [KeyboardButton('profil foto'), KeyboardButton('vaqt')]
 ], resize_keyboard=True)
-
-updater = Updater(token='5496542594:AAEyl5uRxzYpQqhzpW-4QDcO0G2eHeW729Q')
 
 def start(update: Update, context: CallbackContext):
     update.message.reply_text(f'Asslamu alaykum {update.effective_user.first_name},\nbotimizga xush kelibsiz!', reply_markup=reppy)
