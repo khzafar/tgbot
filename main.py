@@ -16,7 +16,7 @@ def start(update: Update, context: CallbackContext):
 def send_data(update: Update, context: CallbackContext):
     update.message.reply_text(f'Ism: {update.effective_user.first_name}\nFamiliya: {update.effective_user.last_name}\nUsername: {update.effective_user.username}')
 
-def reply_txt(update: Update, context: CallbackContext):
+def send_text(update: Update, context: CallbackContext):
     update.message.reply_text(update.message.text)
 
 def send_audio(update: Update, context: CallbackContext):
@@ -28,8 +28,9 @@ def send_voice(update: Update, context: CallbackContext):
 def send_photo(update: Update, context: CallbackContext):
     update.message.reply_photo(update.message.photo[0].file_id)
 
-def get_profile(update: Update, context: CallbackContext):
-    update.message.reply_photo(update.effective_user)
+def send_get_profile(update: Update, context: CallbackContext):
+    for i in range(update.effective_user.get_profile_photos().total_count):
+        update.message.reply_photo(update.effective_user.get_profile_photos().photos[i][0].file_id)
 
 def send_video(update: Update, context: CallbackContext):
     update.message.reply_video(update.message.video)
@@ -55,9 +56,9 @@ def send_date(update: Update, context: CallbackContext):
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(MessageHandler(filters=Filters.text('malumot'), callback=send_data))
-updater.dispatcher.add_handler(MessageHandler(filters=Filters.text('rasm'), callback=get_profile))
+updater.dispatcher.add_handler(MessageHandler(filters=Filters.text('profil foto'), callback=send_get_profile))
 updater.dispatcher.add_handler(MessageHandler(filters=Filters.text('vaqt'), callback=send_date))
-updater.dispatcher.add_handler(MessageHandler(filters=Filters.text, callback = reply_txt))
+updater.dispatcher.add_handler(MessageHandler(filters=Filters.text, callback = send_text))
 updater.dispatcher.add_handler(MessageHandler(filters=Filters.audio, callback=send_audio))
 updater.dispatcher.add_handler(MessageHandler(filters=Filters.voice, callback=send_voice))
 updater.dispatcher.add_handler(MessageHandler(filters=Filters.photo, callback=send_photo))
